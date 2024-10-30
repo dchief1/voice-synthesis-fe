@@ -118,7 +118,7 @@ export default function Conversation() {
   return (
     <>
       <div className="flex justify-between items-center bg-gray-300 shadow-lg w-full h-12 py-8 px-4 md:p-8">
-        <h1 className="tmd:ext-3xl text-base font-bold text-gray-700">AI Conversation</h1>
+        <h1 className="md:text-3xl text-base font-bold text-gray-700">AI Conversation</h1>
         <button
           onClick={handleLogout}
           className="bg-red-500 text-white px-2 py-1 md:py-2 md:px-4 rounded-lg"
