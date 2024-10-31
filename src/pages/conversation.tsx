@@ -42,7 +42,7 @@ export default function Conversation() {
       recognition.onresult = async (event: any) => {
         const transcript = event.results[0][0].transcript;
         setUserText(transcript);
-        await handleConversation(transcript);
+        await handleConversation({ message: transcript });
       };
 
       recognition.onerror = (event: any) => {
@@ -59,9 +59,8 @@ export default function Conversation() {
   const handleConversation = async (payload: { message: string }) => {
     try {
       const response = await StartConversation(payload);
-
       setAiResponse(response.conversation.aiResponse);
-      speakText(response.conversation.message);
+      speakText(response.conversation.aiResponse); // Ensure the AI response is spoken
       fetchHistory();
     } catch (error) {
       console.error("Error during conversation:", error);
@@ -92,13 +91,13 @@ export default function Conversation() {
   const handleStartConversation = () => {
     if (recognition && !isListening) {
       setIsListening(true);
-      recognition.start(); // Start listening
+      recognition.start();
     }
   };
 
   const handleStopConversation = () => {
     if (recognition) {
-      recognition.stop(); // Stop listening
+      recognition.stop();
     }
   };
 
@@ -117,70 +116,70 @@ export default function Conversation() {
 
   return (
     <>
-      <div className="flex justify-between items-center bg-gray-300 shadow-lg w-full h-12 py-8 px-4 md:p-8">
-        <h1 className="md:text-3xl text-base font-bold text-gray-700">AI Conversation</h1>
+      <div className="flex justify-between items-center bg-blue-600 shadow-lg w-full h-16 py-8 px-4 md:p-8 text-white">
+        <h1 className="md:text-3xl text-lg font-bold">AI Conversation</h1>
         <button
           onClick={handleLogout}
-          className="bg-red-500 text-white px-2 py-1 md:py-2 md:px-4 rounded-lg"
+          className="bg-red-500 text-white px-3 py-2 md:px-4 md:py-2 rounded-lg"
         >
           Logout
         </button>
       </div>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
-        <div className="flex items-center mb-4">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+        <div className="flex items-center mb-6">
           <button
             onClick={isListening ? handleStopConversation : handleStartConversation}
-            className={`py-2 px-4 rounded ${
-              isListening ? "bg-red-500" : "bg-blue-500"
+            className={`py-2 px-6 rounded-lg shadow-md ${
+              isListening ? "bg-red-500" : "bg-green-600"
             } text-white`}
           >
             {isListening ? "Stop Recording" : "Start Recording"}
           </button>
           <Mic
             onClick={isListening ? handleStopConversation : handleStartConversation}
-            className={`ml-2 cursor-pointer text-3xl ${
-              isListening ? "text-red-500" : "text-blue-500"
+            className={`ml-4 cursor-pointer text-4xl ${
+              isListening ? "text-red-500" : "text-green-600"
             }`}
           />
         </div>
 
-        <div className="flex mb-4 flex-col md:flex-row">
+        <div className="flex mb-4 flex-col md:flex-row w-full max-w-lg">
           <input
             type="text"
             value={userText}
             onChange={(e) => setUserText(e.target.value)}
             placeholder="Type your message here..."
-            className="border p-2 text-gray-500 rounded-lg w-full md:w-64"
+            className="border p-3 text-gray-700 rounded-lg w-full md:w-2/3"
           />
           <button
             onClick={handleSendMessage}
-            className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-2 md:mt-0 md:ml-2"
+            className="bg-blue-600 text-white py-2 px-4 rounded-lg mt-3 md:mt-0 md:ml-3 shadow-md"
           >
             Send
           </button>
         </div>
 
         <div className="w-full max-w-lg bg-white shadow-md p-4 rounded-lg mb-4">
-          <h2 className="text-xl font-semibold text-gray-600">User Input</h2>
-          <p className="p-2 border rounded mt-2 text-gray-700">
+          <h2 className="text-lg font-semibold text-blue-600">User Input</h2>
+          <p className="p-3 border rounded mt-2 text-gray-700">
             {userText || "Waiting for input..."}
           </p>
         </div>
 
         <div className="w-full max-w-lg bg-white shadow-md p-4 rounded-lg mb-4">
-          <h2 className="text-xl font-semibold text-gray-600">AI Response</h2>
-          <p className="p-2 border rounded mt-2 text-gray-700">
+          <h2 className="text-lg font-semibold text-blue-600">AI Response</h2>
+          <p className="p-3 border rounded mt-2 text-gray-700">
             {aiResponse || "Awaiting response..."}
           </p>
         </div>
 
-        {/* Conversation History Section */}
-        <div className="w-full max-w-lg bg-white shadow-md p-4 rounded-lg">
-          <h2 className="text-xl font-semibold text-gray-600">Conversation History</h2>
-          <ul className="mt-2">
+        {/* Conversation History Section with scroll */}
+        <div className="w-full max-w-lg bg-white shadow-md p-4 rounded-lg mb-4 max-h-80 overflow-y-auto">
+          <h2 className="text-lg font-semibold text-blue-600">Conversation History</h2>
+          <ul className="mt-3 space-y-2">
             {history.length > 0 ? (
               history.map((item: any, index) => (
-                <li key={index} className="p-2 border-b last:border-b-0 text-gray-700">
+                <li key={index} className="p-3 border-b last:border-b-0 text-gray-700">
                   <strong>User:</strong> {item.message} <br />
                   <strong>AI:</strong> {item.aiResponse}
                 </li>
@@ -193,7 +192,7 @@ export default function Conversation() {
 
         {/* Voice Settings */}
         <div className="w-full max-w-lg bg-white shadow-md p-4 rounded-lg mt-4">
-          <h2 className="text-xl font-semibold text-gray-600">Voice Settings</h2>
+          <h2 className="text-lg font-semibold text-blue-600">Voice Settings</h2>
           <div className="flex flex-col mt-4">
             <label className="text-gray-600">Rate: {voiceSettings.rate}</label>
             <input
