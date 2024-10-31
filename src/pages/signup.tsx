@@ -13,15 +13,9 @@ interface SignupFormInputs {
 }
 
 export default function Signup() {
-  const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
-
-  // Toggle password visibility
-  const toggle = () => {
-    setOpen(!open);
-  };
 
   const {
     register,
