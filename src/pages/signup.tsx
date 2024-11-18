@@ -61,7 +61,7 @@ export default function Signup() {
             >
               <div className="text-2xl font-bold text-white text-center mb-3">
                 <h2 className="text-black">Get Started</h2>
-                <p>Let's get you signed up!</p>
+                <p>Let&aposs get you signed up!</p>
               </div>
 
               <div className="mb-4">
