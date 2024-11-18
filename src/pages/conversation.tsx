@@ -115,21 +115,22 @@ export default function Conversation() {
   };
 
   return (
-    <>
-      <div className="flex justify-between items-center bg-blue-600 shadow-lg w-full h-16 py-8 px-4 md:p-8 text-white">
-        <h1 className="md:text-3xl text-lg font-bold">AI Conversation</h1>
+    <div>
+      <div className="flex justify-between font-sarpanch items-center bg-teal-900 shadow-lg w-full h-10 py-8 px-4 md:p-8 text-white">
+      <div><p className="mobile:text-2xl pc:text-4xl pad:p-5 mobile:p-0 font-sarpanch font-bold"><span className="text-black font-extrabold"> / </span><span className="text-white">Synthesis</span></p></div>
         <button
           onClick={handleLogout}
-          className="bg-red-500 text-white px-3 py-2 md:px-4 md:py-2 rounded-lg"
+          className="bg-teal-700 shadow-2xl hover:bg-teal-600 text-white text-lg font-bold mobile:px-2 mobile:py-1 rounded-lg mobile:rounded-md"
         >
-          Logout
+          Log-out
         </button>
       </div>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+
+      <div className="flex flex-col font-sarpanch items-center justify-center min-h-screen bg-teal-900 p-4 mobile:pt-10 mobile:pb-8 pad:pb-0 pad:mb-0 pad: pc:pb-10 pc:pt-20">
         <div className="flex items-center mb-6">
           <button
             onClick={isListening ? handleStopConversation : handleStartConversation}
-            className={`py-2 px-6 rounded-lg shadow-md ${
+            className={`py-2 px-6 font-bold rounded-lg shadow-md hover:bg-green-700 transition-all duration-400 ease-in-out ${
               isListening ? "bg-red-500" : "bg-green-600"
             } text-white`}
           >
@@ -143,39 +144,39 @@ export default function Conversation() {
           />
         </div>
 
-        <div className="flex mb-4 flex-col md:flex-row w-full max-w-lg">
-          <input
-            type="text"
+        <div className="flex mb-4 flex-col w-full max-w-lg">
+          <textarea
             value={userText}
             onChange={(e) => setUserText(e.target.value)}
             placeholder="Type your message here..."
-            className="border p-3 text-gray-700 rounded-lg w-full md:w-2/3"
+            className="border-none outline-none p-2 h-28 text-gray-700 font-bold rounded-t-2xl w-full"
           />
+
           <button
             onClick={handleSendMessage}
-            className="bg-blue-600 text-white py-2 px-4 rounded-lg mt-3 md:mt-0 md:ml-3 shadow-md"
+            className="bg-green-600 text-white font-bold text-xl hover:bg-green-700 transition-all duration-300 ease-in-out w-full py-2 px-4 rounded-b-2xl md:mt-1 shadow-md"
           >
             Send
           </button>
         </div>
 
         <div className="w-full max-w-lg bg-white shadow-md p-4 rounded-lg mb-4">
-          <h2 className="text-lg font-semibold text-blue-600">User Input</h2>
-          <p className="p-3 border rounded mt-2 text-gray-700">
+          <h2 className="text-lg font-bold text-teal-700">User Input</h2>
+          <p className="p-3 border rounded mt-2 text-gray-500 font-semibold">
             {userText || "Waiting for input..."}
           </p>
         </div>
 
         <div className="w-full max-w-lg bg-white shadow-md p-4 rounded-lg mb-4">
-          <h2 className="text-lg font-semibold text-blue-600">AI Response</h2>
-          <p className="p-3 border rounded mt-2 text-gray-700">
+          <h2 className="text-lg font-bold text-teal-700">AI Response</h2>
+          <p className="p-3 border rounded mt-2 text-gray-500 font-semibold">
             {aiResponse || "Awaiting response..."}
           </p>
         </div>
 
         {/* Conversation History Section with scroll */}
         <div className="w-full max-w-lg bg-white shadow-md p-4 rounded-lg mb-4 max-h-80 overflow-y-auto">
-          <h2 className="text-lg font-semibold text-blue-600">Conversation History</h2>
+          <h2 className="text-lg font-bold text-teal-700">Conversation History</h2>
           <ul className="mt-3 space-y-2">
             {history.length > 0 ? (
               history.map((item: any, index) => (
@@ -185,16 +186,16 @@ export default function Conversation() {
                 </li>
               ))
             ) : (
-              <p className="text-gray-500">No conversation history available.</p>
+              <p className="text-gray-500 font-semibold">No conversation history available.</p>
             )}
           </ul>
         </div>
 
         {/* Voice Settings */}
-        <div className="w-full max-w-lg bg-white shadow-md p-4 rounded-lg mt-4">
-          <h2 className="text-lg font-semibold text-blue-600">Voice Settings</h2>
+        <div className="w-full max-w-lg bg-white shadow-md p-4 rounded-lg">
+          <h2 className="text-lg font-bold text-teal-700">Voice Settings</h2>
           <div className="flex flex-col mt-4">
-            <label className="text-gray-600">Rate: {voiceSettings.rate}</label>
+            <label className="text-teal-700 font-bold">Rate: {voiceSettings.rate}</label>
             <input
               type="range"
               min="0.5"
@@ -208,7 +209,7 @@ export default function Conversation() {
             />
           </div>
           <div className="flex flex-col mt-4">
-            <label className="text-gray-600">Pitch: {voiceSettings.pitch}</label>
+            <label className="text-teal-700 font-bold">Pitch: {voiceSettings.pitch}</label>
             <input
               type="range"
               min="0"
@@ -218,11 +219,11 @@ export default function Conversation() {
               onChange={(e) =>
                 setVoiceSettings({ ...voiceSettings, pitch: parseFloat(e.target.value) })
               }
-              className="mt-2"
+              className="mt-2 text-black"
             />
           </div>
           <div className="flex flex-col mt-4">
-            <label className="text-gray-600">Volume: {voiceSettings.volume}</label>
+            <label className="text-teal-700 font-bold">Volume: {voiceSettings.volume}</label>
             <input
               type="range"
               min="0"
@@ -237,6 +238,6 @@ export default function Conversation() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

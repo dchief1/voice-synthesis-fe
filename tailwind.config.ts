@@ -12,6 +12,15 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        'sarpanch' : ['Sarpanch', 'sans-serif'],
+        'sourgummy' : ['Sour Gummy', 'sans-serif'],
+      },
+      screens: {
+        'mobile': '340px',
+        'pad': '640px',
+        'pc': '1024px',
+      },
     },
   },
   plugins: [],
