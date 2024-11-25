@@ -9,7 +9,7 @@ declare global {
   interface Window {
     SpeechRecognition: any;
     webkitSpeechRecognition: any;
-    responsiveVoice: any;
+    // responsiveVoice: any;
   }
 }
 
@@ -37,14 +37,12 @@ export default function Conversation() {
       : null;
   const recognition = SpeechRecognition ? new SpeechRecognition() : null;
 
-
   useEffect(() => {
     if (recognition) {
       // Configure recognition settings
       recognition.continuous = false;
       recognition.interimResults = false;
       recognition.lang = "en-US";
-
 
       // Handle recognition results
       recognition.onresult = async (event: any) => {
@@ -64,7 +62,6 @@ export default function Conversation() {
         setIsListening(false);
       };
     }
-
   }, [recognition]);
 
   useEffect(() => {
@@ -79,8 +76,7 @@ export default function Conversation() {
         }
       }, 500);
     }
-  },[])
-  
+  }, []);
 
   const handleConversation = async (payload: { message: string }) => {
     try {
@@ -111,13 +107,15 @@ export default function Conversation() {
         "UK English Male", // Choose a voice from the available voices
         {
           pitch: voiceSettings.pitch, // Use voice settings for pitch
-          rate: voiceSettings.rate,   // Use voice settings for rate
+          rate: voiceSettings.rate, // Use voice settings for rate
           volume: voiceSettings.volume, // Use voice settings for volume
           onend: () => console.log("Speech finished"),
         }
       );
     } else if (synth) {
-      console.warn("ResponsiveVoice is not available or script not loaded, falling back to speechSynthesis.");
+      console.warn(
+        "ResponsiveVoice is not available or script not loaded, falling back to speechSynthesis."
+      );
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.rate = voiceSettings.rate;
       utterance.pitch = voiceSettings.pitch;
@@ -127,7 +125,6 @@ export default function Conversation() {
       console.error("No speech synthesis method available.");
     }
   };
-   
 
   const handleStartConversation = () => {
     if (recognition && !isListening) {
@@ -166,7 +163,12 @@ export default function Conversation() {
   return (
     <div>
       <div className="flex justify-between font-sarpanch items-center bg-teal-900 shadow-lg w-full h-10 py-8 px-4 md:p-8 text-white">
-      <div><p className="mobile:text-2xl pc:text-4xl pad:p-5 mobile:p-0 font-sarpanch font-bold"><span className="text-black font-extrabold"> / </span><span className="text-white">Synthesis</span></p></div>
+        <div>
+          <p className="mobile:text-2xl pc:text-4xl pad:p-5 mobile:p-0 font-sarpanch font-bold">
+            <span className="text-black font-extrabold"> / </span>
+            <span className="text-white">Synthesis</span>
+          </p>
+        </div>
         <button
           onClick={handleLogout}
           className="bg-teal-700 shadow-2xl hover:bg-teal-600 text-white text-lg font-bold mobile:px-2 mobile:py-1 rounded-lg mobile:rounded-md"
@@ -220,104 +222,98 @@ export default function Conversation() {
           </div>
 
           <div className="w-full max-w-lg bg-teal-800 shadow-md rounded-lg mb-4">
-          
             {/* Header with Copy Icon */}
             <div className="flex justify-between items-center p-2">
-            <h2 className="text-lg font-bold text-white">AI Response</h2>
-            <button
-              onClick={handleCopy}
-              className="text-white flex items-center gap-1 hover:opacity-80 transition-opacity"
-              title="Copy AI Response"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-5 h-5"
+              <h2 className="text-lg font-bold text-white">AI Response</h2>
+              <button
+                onClick={handleCopy}
+                className="text-white flex items-center gap-1 hover:opacity-80 transition-opacity"
+                title="Copy AI Response"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M8 16h8M8 12h8m-9 8h10a2 2 0 002-2V8a2 2 0 00-2-2H9a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-              <span>{copySuccess ? "Copied!" : "Copy"}</span>
-            </button>
-           </div>
-              <textarea
-                className="p-2 border rounded-xl mt-2 text-black font-semibold h-52 pad:w-[30rem] w-full border-none outline-none resize-none"
-                value={aiResponse || "Awaiting response..."}
-                readOnly
-              />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="w-5 h-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8 16h8M8 12h8m-9 8h10a2 2 0 002-2V8a2 2 0 00-2-2H9a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+                <span>{copySuccess ? "Copied!" : "Copy"}</span>
+              </button>
+            </div>
+            <textarea
+              className="p-2 border rounded-xl mt-2 text-black font-semibold h-52 pad:w-[30rem] w-full border-none outline-none resize-none"
+              value={aiResponse || "Awaiting response..."}
+              readOnly
+            />
           </div>
         </div>
 
-
-
         <div className="sm:flex-none pad:flex gap-10 mb-4 w-full max-w-lg">
-
           <div>
-          {/* Conversation History Section with scroll */}
-          <div className="w-full max-w-lg rounded-lg mb-4 bg-teal-800 shadow-md">
-          {/* Title and Dropdown Toggle */}
-          <div
-            className="flex justify-between items-center cursor-pointer w-[30rem] p-2"
-            onClick={() => setHistoryDropdownOpen(!historyDropdownOpen)}
-          >
-            <h2 className="text-lg font-bold text-white">Conversation History</h2>
-            <span
-              className={`text-white transition-transform transform ${
-                historyDropdownOpen ? "rotate-180" : "rotate-0"
-              }`}
-            >
-              ▼
-            </span>
-          </div>
+            {/* Conversation History Section with scroll */}
+            <div className="w-full max-w-lg rounded-lg mb-4 bg-teal-800 shadow-md">
+              {/* Title and Dropdown Toggle */}
+              <div
+                className="flex justify-between items-center cursor-pointer w-[30rem] p-2"
+                onClick={() => setHistoryDropdownOpen(!historyDropdownOpen)}
+              >
+                <h2 className="text-lg font-bold text-white">Conversation History</h2>
+                <span
+                  className={`text-white transition-transform transform ${
+                    historyDropdownOpen ? "rotate-180" : "rotate-0"
+                  }`}
+                >
+                  ▼
+                </span>
+              </div>
 
-          {/* Conversation History Content */}
-          <div
-            className={`overflow-hidden transition-all duration-500 ease-in-out bg-white rounded-sm ${
-              historyDropdownOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
-            }`}
-          >
-            <ul className="mb-1 p-2 space-y-2">
-              {history.length > 0 ? (
-                history.map((item: any, index: number) => (
-                  <li key={index} className="p-3 text-gray-700">
-                    <strong>User:</strong> {item.message} <br />
-                    <strong>AI:</strong> {item.aiResponse}
-                  </li>
-                ))
-              ) : (
-                <p className="text-gray-500 font-semibold">
-                  No conversation history available.
-                </p>
-              )}
-            </ul>
-            </div>
-          </div>
-          </div>
-
-
-
-        <div>
-          <div className="w-full max-w-lg bg-teal-800 shadow-md rounded-lg">
-          {/* Title and Dropdown Toggle */}
-            <div
-              className="flex justify-between items-center w-[30rem] p-2 cursor-pointer"
-              onClick={() => setVoiceDropdownOpen(!voiceDropdownOpen)}
-            >
-              <h2 className="text-lg font-bold text-white">Voice Settings</h2>
-              <span
-                className={`transition-transform transform text-white ${
-                  voiceDropdownOpen ? "rotate-180" : "rotate-0"
+              {/* Conversation History Content */}
+              <div
+                className={`overflow-hidden transition-all duration-500 ease-in-out bg-white rounded-sm ${
+                  historyDropdownOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
                 }`}
               >
-                ▼
-              </span>
+                <ul className="mb-1 p-2 space-y-2">
+                  {history.length > 0 ? (
+                    history.map((item: any, index: number) => (
+                      <li key={index} className="p-3 text-gray-700">
+                        <strong>User:</strong> {item.message} <br />
+                        <strong>AI:</strong> {item.aiResponse}
+                      </li>
+                    ))
+                  ) : (
+                    <p className="text-gray-500 font-semibold">
+                      No conversation history available.
+                    </p>
+                  )}
+                </ul>
+              </div>
             </div>
+          </div>
+
+          <div>
+            <div className="w-full max-w-lg bg-teal-800 shadow-md rounded-lg">
+              {/* Title and Dropdown Toggle */}
+              <div
+                className="flex justify-between items-center w-[30rem] p-2 cursor-pointer"
+                onClick={() => setVoiceDropdownOpen(!voiceDropdownOpen)}
+              >
+                <h2 className="text-lg font-bold text-white">Voice Settings</h2>
+                <span
+                  className={`transition-transform transform text-white ${
+                    voiceDropdownOpen ? "rotate-180" : "rotate-0"
+                  }`}
+                >
+                  ▼
+                </span>
+              </div>
 
               {/* Settings Content with Transition */}
               <div
@@ -351,7 +347,10 @@ export default function Conversation() {
                       step="0.1"
                       value={voiceSettings.pitch}
                       onChange={(e) =>
-                        setVoiceSettings({ ...voiceSettings, pitch: parseFloat(e.target.value) })
+                        setVoiceSettings({
+                          ...voiceSettings,
+                          pitch: parseFloat(e.target.value),
+                        })
                       }
                       className="mt-2 text-black"
                     />
@@ -366,7 +365,10 @@ export default function Conversation() {
                       step="0.1"
                       value={voiceSettings.volume}
                       onChange={(e) =>
-                        setVoiceSettings({ ...voiceSettings, volume: parseFloat(e.target.value) })
+                        setVoiceSettings({
+                          ...voiceSettings,
+                          volume: parseFloat(e.target.value),
+                        })
                       }
                       className="mt-2"
                     />
