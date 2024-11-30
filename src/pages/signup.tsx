@@ -54,7 +54,7 @@ export default function Signup() {
 
         <div className="pc:w-1/2">
 
-          <div className="flex flex-col items-center font-sarpanch justify-center pad:mt-36 pc:mt-12 mobile:w-[24rem] pad:w-[50rem] pc:w-full">
+          <div className="flex flex-col items-center font-sarpanch justify-center pad:mt-36 pc:mt-36 mobile:w-[24rem] pad:w-[50rem] pc:w-full">
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="p-6 md:shadow-md md:rounded w-full md:max-w-md backdrop-blur-none bg-white/10"

@@ -215,7 +215,7 @@ export default function Conversation() {
           <div className="w-full max-w-lg bg-teal-800 shadow-md rounded-lg mb-4">
             <h2 className="text-lg font-bold text-white p-2">Scan User Input</h2>
             <textarea
-              className="p-2 border rounded-xl mt-2 text-gray-500 font-semibold h-52 mobile:w-80 pad:w-80 pc:w-96 border-none outline-none resize-none"
+              className="p-2 border rounded-xl mt-2 text-gray-500 font-semibold h-52 mobile:w-[22rem] pad:w-[21rem] pc:w-[30rem] border-none outline-none resize-none"
               value={userText || "Waiting for input..."}
               readOnly
             />
@@ -248,14 +248,14 @@ export default function Conversation() {
               </button>
             </div>
             <textarea
-              className="p-2 border rounded-xl mt-2 text-black font-semibold h-52 pad:w-[30rem] w-full border-none outline-none resize-none"
+              className="p-2 border rounded-xl mt-2 text-black font-semibold h-52 mobile:w-[22rem] pad:w-[21rem] pc:w-[30rem] w-full border-none outline-none resize-none"
               value={aiResponse || "Awaiting response..."}
               readOnly
             />
           </div>
         </div>
 
-        <div className="sm:flex-none pad:flex gap-10 mb-4 w-full max-w-lg">
+        <div className="sm:flex-none pc:flex justify-center gap-10 mb-4 w-full max-w-lg">
           <div>
             {/* Conversation History Section with scroll */}
             <div className="w-full max-w-lg rounded-lg mb-4 bg-teal-800 shadow-md">
