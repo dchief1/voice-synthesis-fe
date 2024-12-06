@@ -9,7 +9,6 @@ declare global {
   interface Window {
     SpeechRecognition: any;
     webkitSpeechRecognition: any;
-    // responsiveVoice: any;
   }
 }
 
@@ -161,8 +160,8 @@ export default function Conversation() {
     }
   };
   return (
-    <div>
-      <div className="flex justify-between font-sarpanch items-center bg-teal-900 shadow-lg w-full h-10 py-8 px-4 md:p-8 text-white">
+    <div className="">
+      <div className="flex justify-between font-sarpanch items-center bg-teal-900 shadow-lg h-10 py-8 px-4 md:p-8 text-white">
         <div>
           <p className="mobile:text-2xl pc:text-4xl pad:p-5 mobile:p-0 font-sarpanch font-bold">
             <span className="text-black font-extrabold"> / </span>
@@ -200,7 +199,7 @@ export default function Conversation() {
             value={userText}
             onChange={(e) => setUserText(e.target.value)}
             placeholder="Type your message here..."
-            className="border-none outline-none p-2 h-28 text-black font-bold rounded-t-2xl w-full"
+            className="border-none outline-none p-2 h-28 text-black font-bold rounded-t-2xl"
           />
 
           <button
@@ -212,7 +211,7 @@ export default function Conversation() {
         </div>
 
         <div className="sm:flex-none pad:flex gap-10 mb-4">
-          <div className="w-full max-w-lg bg-teal-800 shadow-md rounded-lg mb-4">
+          <div className="bg-teal-800 shadow-md rounded-lg mb-4">
             <h2 className="text-lg font-bold text-white p-2">Scan User Input</h2>
             <textarea
               className="p-2 border rounded-xl mt-2 text-gray-500 font-semibold h-52 mobile:w-[22rem] pad:w-[21rem] pc:w-[30rem] border-none outline-none resize-none"
@@ -221,7 +220,7 @@ export default function Conversation() {
             />
           </div>
 
-          <div className="w-full max-w-lg bg-teal-800 shadow-md rounded-lg mb-4">
+          <div className="bg-teal-800 shadow-md rounded-lg mb-4">
             {/* Header with Copy Icon */}
             <div className="flex justify-between items-center p-2">
               <h2 className="text-lg font-bold text-white">AI Response</h2>
@@ -248,7 +247,7 @@ export default function Conversation() {
               </button>
             </div>
             <textarea
-              className="p-2 border rounded-xl mt-2 text-black font-semibold h-52 mobile:w-[22rem] pad:w-[21rem] pc:w-[30rem] w-full border-none outline-none resize-none"
+              className="p-2 border rounded-xl mt-2 text-black font-semibold h-52 mobile:w-[22rem] pad:w-[21rem] pc:w-[30rem] border-none outline-none resize-none"
               value={aiResponse || "Awaiting response..."}
               readOnly
             />
@@ -258,7 +257,7 @@ export default function Conversation() {
         <div className="sm:flex-none pc:flex justify-center gap-10 mb-4 w-full max-w-lg">
           <div>
             {/* Conversation History Section with scroll */}
-            <div className="w-full max-w-lg rounded-lg mb-4 bg-teal-800 shadow-md">
+            <div className="rounded-lg mb-4 bg-teal-800 shadow-md">
               {/* Title and Dropdown Toggle */}
               <div
                 className="flex justify-between items-center cursor-pointer w-[30rem] p-2"
@@ -299,7 +298,7 @@ export default function Conversation() {
           </div>
 
           <div>
-            <div className="w-full max-w-lg bg-teal-800 shadow-md rounded-lg">
+            <div className="bg-teal-800 shadow-md rounded-lg">
               {/* Title and Dropdown Toggle */}
               <div
                 className="flex justify-between items-center w-[30rem] p-2 cursor-pointer"
